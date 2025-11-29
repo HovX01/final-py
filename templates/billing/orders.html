@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Orders{% endblock %}
+{% block content %}
+<section class="rounded-2xl border border-slate-800/70 bg-slate-900/60 p-6 shadow-xl">
+    <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-slate-100">Your orders</h2>
+        <a href="{% url 'catalog:product_list' %}" class="text-emerald-300 hover:text-emerald-200 text-sm">Continue shopping</a>
+    </div>
+    {% if orders %}
+    <div class="mt-4 divide-y divide-slate-800/70">
+        {% for order in orders %}
+        <div class="py-3 flex gap-4 items-center">
+            {% if order.product.image_url %}
+            <img src="{{ order.product.image_url }}" alt="{{ order.product.name_en }}" class="h-16 w-16 rounded-lg object-cover border border-slate-800/70 bg-slate-900" onerror="this.style.display='none'">
+            {% endif %}
+            <div class="flex-1">
+                <div class="text-lg font-semibold text-slate-100">{{ order.product.name_en }}</div>
+                <div class="text-sm text-slate-400">{{ order.product.category.name_en }}</div>
+                <div class="text-xs text-slate-500">Order ID: {{ order.stripe_checkout_session_id }}</div>
+            </div>
+            <div class="w-16 text-center text-slate-200">x{{ order.quantity }}</div>
+            <div class="w-24 text-right text-emerald-300 font-semibold">${{ order.amount }}</div>
+            {% if order.discount_applied %}
+                <span class="rounded-full bg-emerald-500/20 px-2 py-1 text-xs text-emerald-200 border border-emerald-500/40">Pro 20% off</span>
+            {% endif %}
+            <div class="text-sm text-slate-400 w-32 text-right">{{ order.created_at|date:"Y-m-d H:i" }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="mt-4 text-slate-400">No orders yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

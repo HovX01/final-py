@@ -9,6 +9,7 @@ from .views import (
     create_cart_checkout,
     create_product_checkout,
     create_subscription_checkout,
+    orders_view,
     remove_from_cart,
     stripe_webhook,
 )
@@ -23,6 +24,7 @@ urlpatterns = [
     path("cart/remove/<int:product_id>/", remove_from_cart, name="remove_from_cart"),
     path("cart/checkout/", create_cart_checkout, name="create_cart_checkout"),
     path("checkout/<int:product_id>/", create_product_checkout, name="product_checkout"),
+    path("orders/", orders_view, name="orders"),
     path("success/", CheckoutSuccessView.as_view(), name="success"),
     path("cancel/", CheckoutCancelView.as_view(), name="cancel"),
     path("webhook/", stripe_webhook, name="webhook"),

@@ -219,6 +219,16 @@ def cart_view(request):
 
 
 @login_required
+def orders_view(request):
+    orders = (
+        Purchase.objects.filter(user=request.user)
+        .select_related("product", "product__category")
+        .order_by("-created_at")
+    )
+    return render(request, "billing/orders.html", {"orders": orders})
+
+
+@login_required
 @require_POST
 def create_cart_checkout(request):
     cart = _get_cart(request)
