@@ -220,12 +220,38 @@ def cart_view(request):
 
 @login_required
 def orders_view(request):
-    orders = (
+    purchases = (
         Purchase.objects.filter(user=request.user)
         .select_related("product", "product__category")
         .order_by("-created_at")
     )
-    return render(request, "billing/orders.html", {"orders": orders})
+    grouped = []
+    current = None
+    for p in purchases:
+        session_id = p.stripe_checkout_session_id or f"order-{p.id}"
+        if not current or current["session_id"] != session_id:
+            current = {
+                "session_id": session_id,
+                "created_at": p.created_at,
+                "items": [],
+                "total": Decimal("0"),
+                "currency": p.currency,
+                "discount_applied": False,
+            }
+            grouped.append(current)
+        current["items"].append(
+            {
+                "product": p.product,
+                "quantity": p.quantity,
+                "amount": p.amount,
+                "discount_applied": p.discount_applied,
+                "created_at": p.created_at,
+            }
+        )
+        current["total"] += p.amount
+        if p.discount_applied:
+            current["discount_applied"] = True
+    return render(request, "billing/orders.html", {"orders": grouped})
 
 
 @login_required
