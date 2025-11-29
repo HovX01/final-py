@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Upgrade to Pro{% endblock %}
+{% block content %}
+<section class="mx-auto max-w-3xl rounded-2xl border border-slate-800/70 bg-slate-900/60 p-6 shadow-xl">
+    <div class="flex flex-col gap-2">
+        <span class="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-200">Pro Plan</span>
+        <h2 class="text-2xl font-bold text-slate-100">Upgrade to Pro</h2>
+        <p class="text-slate-400">Unlock 20% off every product purchase.</p>
+    </div>
+    <div class="mt-6 grid gap-6 md:grid-cols-2">
+        <div class="rounded-xl border border-slate-800/70 bg-slate-950/60 p-5 shadow">
+            <p class="text-4xl font-extrabold text-emerald-300">${{ plan_price }}<span class="text-lg text-slate-400">/month</span></p>
+            <ul class="mt-4 space-y-2 text-slate-300">
+                <li>✓ 20% discount on all products</li>
+                <li>✓ Keep your account active and verified</li>
+                <li>✓ Stripe-secured billing</li>
+            </ul>
+        </div>
+        <div class="rounded-xl border border-slate-800/70 bg-slate-950/60 p-5 shadow flex flex-col justify-between">
+            {% if is_basic %}
+            <div>
+                <p class="text-slate-200 font-semibold mb-2">Ready to upgrade?</p>
+                <p class="text-sm text-slate-400">Billing currency: {{ currency }}</p>
+                {% if price_id_configured %}
+                    <p class="text-sm text-emerald-300 mt-1">Using configured Stripe price.</p>
+                {% else %}
+                    <p class="text-sm text-amber-300 mt-1">Using on-the-fly price (${% firstof plan_price "20" %}/mo) since no Stripe price ID set.</p>
+                {% endif %}
+            </div>
+            <form method="post" action="{% url 'billing:subscribe' %}" class="mt-4">
+                {% csrf_token %}
+                <button type="submit" class="w-full rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-slate-950 hover:bg-emerald-400 transition">Start subscription</button>
+            </form>
+            {% else %}
+            <p class="text-emerald-300 font-semibold">You are already on Pro.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

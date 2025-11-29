@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<article class="mx-auto max-w-lg rounded-2xl border border-slate-800/70 bg-slate-900/60 p-6 shadow-xl">
+    <h2 class="text-2xl font-bold">Login</h2>
+    <p class="mt-1 text-slate-400">Access your account to manage purchases and subscriptions.</p>
+    <form method="post" class="mt-4 space-y-3">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="space-y-1">
+            <label class="block text-sm text-slate-300">Email</label>
+            {{ form.username }}
+        </div>
+        <div class="space-y-1">
+            <label class="block text-sm text-slate-300">Password</label>
+            {{ form.password }}
+        </div>
+        <button type="submit" class="w-full rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-slate-950 hover:bg-emerald-400 transition">Login</button>
+    </form>
+    <p class="mt-3 text-sm text-slate-400"><a class="text-emerald-300 hover:text-emerald-200" href="{% url 'accounts:password_reset' %}">Forgot password?</a></p>
+</article>
+{% endblock %}

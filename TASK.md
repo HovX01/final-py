@@ -1,0 +1,9 @@
+- [ ] Repository hygiene: add `.env.example` and load env vars for Stripe keys, email backend, and site URL used in verification links.
+- [ ] Switch to a custom user model (`accounts.User` with `user_type` choices `basic`/`pro`, `is_disabled`, `email_verified_at`); recreate initial migrations/DB to adopt it early.
+- [ ] Implement registration with email verification (signed token), login, logout, and password reset views/templates; block auth if disabled or unverified.
+- [ ] Expose admin controls to disable users and manage user type; ensure staff can search/filter these fields.
+- [ ] Catalog: create `Category` and `Product` models with source IDs; build management command to fetch `https://ousa-food.vercel.app/api/products`, map fields, upsert data, and log summary.
+- [ ] Billing: integrate Stripe Checkout for subscriptions, store customer/subscription IDs, and handle webhooks to sync status.
+- [ ] Purchasing: create product checkout flow applying 20% discount for `pro` users; record purchases with final amount and Stripe IDs.
+- [ ] Middleware/guards to prevent disabled users from transacting; surface messaging in UI.
+- [ ] Tests: auth verification/disablement, importer idempotency, discount math, webhook handlers (mocked Stripe).

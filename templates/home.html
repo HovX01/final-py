@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="rounded-2xl border border-slate-800/70 bg-slate-900/60 p-6 shadow-xl">
+    <div class="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-200">Your dashboard</div>
+    <h2 class="mt-4 text-2xl font-bold text-slate-100">Welcome{% if user.is_authenticated %}, {{ user.first_name|default:user.email }}{% endif %}</h2>
+    {% if user.is_authenticated %}
+        <p class="mt-2 text-slate-400">
+            Plan: {{ user.get_user_type_display }} · Email verified: {{ user.is_verified|yesno:"Yes,No" }} · Status:
+            {% if user.is_disabled %}Disabled{% else %}Active{% endif %}
+        </p>
+        {% if user.user_type == 'basic' %}
+            <div class="mt-4 flex items-center gap-3">
+                <a href="{% url 'billing:subscribe_page' %}" class="rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-slate-950 shadow hover:bg-emerald-400 transition">Upgrade to Pro ($20/mo)</a>
+                <span class="text-sm text-slate-400">Pro unlocks a 20% discount on all products.</span>
+            </div>
+        {% endif %}
+    {% else %}
+        <p class="mt-2 text-slate-400">Please log in or register to continue.</p>
+        <div class="mt-4 flex items-center gap-3">
+            <a class="rounded-lg bg-slate-800 px-4 py-2 text-slate-100 hover:bg-slate-700 transition" href="{% url 'accounts:login' %}">Login</a>
+            <a class="rounded-lg bg-emerald-500 px-4 py-2 text-slate-950 font-semibold hover:bg-emerald-400 transition" href="{% url 'accounts:register' %}">Register</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

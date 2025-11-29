@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+<section class="rounded-2xl border border-slate-800/70 bg-slate-900/60 p-6 shadow-xl">
+    <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-slate-100">Your cart</h2>
+        <a href="{% url 'catalog:product_list' %}" class="text-emerald-300 hover:text-emerald-200 text-sm">Continue shopping</a>
+    </div>
+    {% if items %}
+    <div class="mt-4 divide-y divide-slate-800/70">
+        {% for item in items %}
+        <div class="py-3 flex gap-4 items-center">
+            {% if item.product.image_url %}
+            <img src="{{ item.product.image_url }}" alt="{{ item.product.name_en }}" class="h-16 w-16 rounded-lg object-cover border border-slate-800/70 bg-slate-900" onerror="this.style.display='none'">
+            {% endif %}
+            <div class="flex-1">
+                <div class="text-lg font-semibold text-slate-100">{{ item.product.name_en }}</div>
+                <div class="text-sm text-slate-400">{{ item.product.category.name_en }}</div>
+            </div>
+            <div class="w-20 text-right text-slate-300">${{ item.price }}</div>
+            <div class="w-16 text-center text-slate-200">x{{ item.quantity }}</div>
+            <div class="w-24 text-right text-emerald-300 font-semibold">${{ item.line_total }}</div>
+            <form method="post" action="{% url 'billing:remove_from_cart' item.product.id %}">
+                {% csrf_token %}
+                <button type="submit" class="text-sm text-rose-300 hover:text-rose-200">Remove</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mt-6 flex flex-col items-end gap-2">
+        <div class="text-slate-300">Subtotal: ${{ total }}</div>
+        {% if is_pro %}
+            <div class="text-emerald-300">Pro discount applied (20% off)</div>
+        {% endif %}
+        <div class="text-xl font-bold text-slate-100">Total: ${{ discount_total }}</div>
+    </div>
+    <form method="post" action="{% url 'billing:create_cart_checkout' %}" class="mt-4">
+        {% csrf_token %}
+        <button type="submit" class="w-full rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-slate-950 hover:bg-emerald-400 transition">Checkout with Stripe</button>
+    </form>
+    {% else %}
+        <p class="mt-4 text-slate-400">Your cart is empty.</p>
+    {% endif %}
+</section>
+{% endblock %}

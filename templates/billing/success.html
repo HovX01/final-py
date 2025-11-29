@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Success{% endblock %}
+{% block content %}
+<article class="mx-auto max-w-lg rounded-2xl border border-emerald-400/40 bg-emerald-500/10 p-6 shadow-xl">
+    <h2 class="text-2xl font-bold text-emerald-200">Payment complete</h2>
+    <p class="mt-2 text-emerald-100/90">Your Stripe checkout completed successfully.</p>
+    <p class="mt-3"><a class="text-slate-100 underline decoration-emerald-300 hover:text-emerald-200" href="{% url 'home' %}">Back to home</a></p>
+</article>
+{% endblock %}

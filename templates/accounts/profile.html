@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<article class="mx-auto max-w-3xl rounded-2xl border border-slate-800/70 bg-slate-900/60 p-6 shadow-xl">
+    <h2 class="text-2xl font-bold">Profile</h2>
+    <div class="mt-4 grid gap-2 text-slate-300">
+        <div><span class="text-slate-400">Email:</span> {{ user.email }}</div>
+        <div><span class="text-slate-400">Name:</span> {{ user.first_name }} {{ user.last_name }}</div>
+        <div><span class="text-slate-400">User type:</span> {{ user.get_user_type_display }}</div>
+        <div><span class="text-slate-400">Email verified:</span> {{ user.is_verified|yesno:"Yes,No" }}</div>
+        <div><span class="text-slate-400">Status:</span> {% if user.is_disabled %}Disabled{% else %}Active{% endif %}</div>
+    </div>
+    {% if user.user_type == 'basic' %}
+        <div class="mt-4">
+            <a href="{% url 'billing:subscribe_page' %}" class="inline-flex rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-slate-950 hover:bg-emerald-400 transition">Upgrade to Pro ($20/mo)</a>
+        </div>
+    {% endif %}
+</article>
+{% endblock %}

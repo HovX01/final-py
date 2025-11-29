@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Cancelled{% endblock %}
+{% block content %}
+<article class="mx-auto max-w-lg rounded-2xl border border-slate-800/70 bg-slate-900/60 p-6 shadow-xl">
+    <h2 class="text-2xl font-bold">Checkout cancelled</h2>
+    <p class="mt-2 text-slate-400">Your Stripe checkout was cancelled. You can try again anytime.</p>
+    <p class="mt-3"><a class="text-emerald-300 hover:text-emerald-200" href="{% url 'home' %}">Back to home</a></p>
+</article>
+{% endblock %}

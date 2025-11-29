@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+{% block content %}
+<article class="rounded-2xl border border-slate-800/70 bg-slate-900/60 p-6 shadow-xl">
+    <div class="space-y-2">
+        <span class="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-200">Menu</span>
+        <div class="flex items-center justify-between">
+            <h2 class="text-2xl font-bold text-slate-100">Products</h2>
+            {% if user.is_authenticated %}
+                <a class="text-emerald-300 hover:text-emerald-200 text-sm" href="{% url 'billing:cart' %}">View cart</a>
+            {% endif %}
+        </div>
+        {% if user.is_authenticated %}
+            <p class="text-slate-400">
+                Plan: {{ user.get_user_type_display }}{% if user.user_type == 'pro' %} (20% discount applied at checkout){% else %} (upgrade to Pro for 20% off — $20/mo){% endif %}
+            </p>
+        {% else %}
+            <p class="text-slate-400"><a class="text-emerald-300 hover:text-emerald-200" href="{% url 'accounts:login' %}">Login</a> to purchase. Pro users get 20% off for $20/mo.</p>
+        {% endif %}
+    </div>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {% for product in products %}
+        <div class="rounded-xl border border-slate-800/70 bg-slate-950/60 p-4 shadow">
+            {% if product.image_url %}
+            <div class="mb-3">
+                <img src="{{ product.image_url }}" alt="{{ product.name_en }}" class="h-40 w-full rounded-lg object-cover border border-slate-800/70 bg-slate-900" onerror="this.style.display='none'">
+            </div>
+            {% endif %}
+            <h4 class="text-lg font-semibold text-slate-100">{{ product.name_en }}</h4>
+            <div class="text-sm text-slate-400">{{ product.category.name_en }}</div>
+            <div class="mt-1 text-emerald-300 font-semibold">${{ product.price }}</div>
+            <p class="mt-2 text-sm text-slate-400">{{ product.description_en }}</p>
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'billing:add_to_cart' product.id %}" class="mt-3" data-cart-add>
+                {% csrf_token %}
+                <button type="submit" class="w-full rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-slate-950 hover:bg-emerald-400 transition">Add to cart</button>
+            </form>
+            {% else %}
+            <a href="{% url 'accounts:login' %}" class="mt-3 inline-block text-emerald-300 hover:text-emerald-200">Login to buy</a>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p class="text-slate-400">No products available.</p>
+    {% endfor %}
+    </div>
+</article>
+{% endblock %}

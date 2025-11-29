@@ -1,0 +1,165 @@
+:root {
+  --bg: #0f172a;
+  --bg-accent: #1e293b;
+  --card: #0b1224;
+  --card-border: #1f2a44;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #10b981;
+  --accent-strong: #0ea371;
+}
+
+body {
+  background: radial-gradient(90% 90% at 10% 10%, #1e293b, #0b1224),
+              radial-gradient(80% 80% at 80% 0%, #0a3b34, #0b1224),
+              var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent);
+}
+
+.topbar {
+  padding: 1rem 0 0.5rem;
+}
+
+.nav-shell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.brand-mark {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-link {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
+.ghost {
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--text);
+}
+
+.page {
+  padding-bottom: 3rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+  padding: 1.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.flash-stack {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.flash {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin: 0;
+}
+
+.hero {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+.product-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.product-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.2rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.product-card h4 {
+  margin: 0 0 0.25rem;
+}
+
+.product-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+form button,
+button {
+  background: var(--accent);
+  border: none;
+  color: #0a0f1c;
+  font-weight: 700;
+  transition: transform 0.08s ease, box-shadow 0.12s ease;
+}
+
+form button:hover,
+button:hover {
+  background: var(--accent-strong);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.25);
+}
+
+input,
+select,
+textarea {
+  background: #0f172a;
+  border-color: var(--card-border);
+  color: var(--text);
+}
+
+.muted {
+  color: var(--muted);
+}
