@@ -1,0 +1,14 @@
+# Byte-compiled / cache
+__pycache__/
+*/__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+
+# Django / SQLite
+db.sqlite3
+*.sqlite3
+
+# Distribution / packaging
+*.egg-info/
